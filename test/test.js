@@ -5,8 +5,8 @@ import { dirname, join } from "node:path";
 
 // Pre-init WASM with initSync so we skip the fetch() path that fails in Node
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const wasmJs = await import(join(__dirname, "..", "wasm", "nsm1_verify_wasm.js"));
-const wasmBytes = readFileSync(join(__dirname, "..", "wasm", "nsm1_verify_wasm_bg.wasm"));
+const wasmJs = await import(join(__dirname, "..", "wasm", "zap1_verify_wasm.js"));
+const wasmBytes = readFileSync(join(__dirname, "..", "wasm", "zap1_verify_wasm_bg.wasm"));
 wasmJs.initSync({ module: wasmBytes });
 
 import {
@@ -33,12 +33,12 @@ async function test(name, fn) {
   }
 }
 
-// Test vectors from nsm1-verify/src/lib.rs (E2E_PROOF_20260327)
+// Test vectors from zap1-verify/src/lib.rs (E2E_PROOF_20260327)
 const LEAF1 = "075b00df286038a7b3f6bb70054df61343e3481fba579591354a00214e9e019b";
 const LEAF2 = "de62554ad3867a59895befa7216686c923fc86245231e8fb6bd709a20e1fd133";
 const ROOT  = "024e36515ea30efc15a0a7962dd8f677455938079430b9eab174f46a4328a07a";
 
-console.log("nsm1-js tests\n");
+console.log("zap1-js tests\n");
 
 // Init
 await test("init() completes without error", async () => {
@@ -165,7 +165,7 @@ await test("parseBundle normalizes flat input", () => {
   assert.strictEqual(bundle.proof.length, 1);
   assert.strictEqual(bundle.proof[0].hash, LEAF2);
   assert.strictEqual(bundle.proof[0].position, "right");
-  assert.strictEqual(bundle.protocol, "NSM1");
+  assert.strictEqual(bundle.protocol, "ZAP1");
   assert.strictEqual(bundle.version, "1");
 });
 
@@ -176,7 +176,7 @@ await test("parseBundle normalizes nested API response", () => {
     proof: [{ hash: LEAF2, position: "right" }],
     root: { hash: ROOT },
     anchor: { txid: "abc123", height: 100 },
-    protocol: "NSM1",
+    protocol: "ZAP1",
     version: "2",
   });
   assert.strictEqual(bundle.leaf_hash, LEAF1);
@@ -203,7 +203,7 @@ await test("parseBundle defaults for missing fields", () => {
   const bundle = parseBundle({ leaf_hash: LEAF1, proof: [], root: ROOT });
   assert.strictEqual(bundle.anchor, null);
   assert.strictEqual(bundle.leaf, null);
-  assert.strictEqual(bundle.protocol, "NSM1");
+  assert.strictEqual(bundle.protocol, "ZAP1");
   assert.strictEqual(bundle.version, "1");
 });
 

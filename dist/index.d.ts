@@ -1,11 +1,11 @@
 /**
- * @frontier-compute/nsm1 - NSM1 Merkle proof verification (WASM-powered)
+ * @frontier-compute/zap1 - ZAP1 Merkle proof verification (WASM-powered)
  */
 
 /** Initialize the WASM module. Called automatically on first use. */
 export function init(): Promise<void>;
 
-/** All 9 deployed NSM1 event types. */
+/** All 9 deployed ZAP1 event types. */
 export const EVENT_TYPES: readonly string[];
 
 /** Event-specific payload for computeLeafHash. */
@@ -66,7 +66,7 @@ export interface RawBundle {
 }
 
 /**
- * Compute the leaf hash for an NSM1 event.
+ * Compute the leaf hash for an ZAP1 event.
  * Returns null for event types not yet supported client-side.
  */
 export function computeLeafHash(

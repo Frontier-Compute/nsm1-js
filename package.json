@@ -1,7 +1,7 @@
 {
-  "name": "@frontiercompute/nsm1",
+  "name": "@frontiercompute/zap1",
   "version": "0.1.0",
-  "description": "NSM1 Merkle proof verification for JavaScript/TypeScript - WASM-powered BLAKE2b-256",
+  "description": "ZAP1 Merkle proof verification for JavaScript/TypeScript - WASM-powered BLAKE2b-256",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,11 +19,11 @@
     "build": "mkdir -p dist && cp src/index.js dist/index.js && cp src/index.d.ts dist/index.d.ts",
     "test": "node test/test.js"
   },
-  "keywords": ["zcash", "blake2b", "merkle", "proof", "nsm1", "nordic-shield", "wasm"],
+  "keywords": ["zcash", "blake2b", "merkle", "proof", "zap1", "nordic-shield", "wasm"],
   "author": "Zk-nd3r <zk_nd3r@frontiercompute.io>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Frontier-Compute/nsm1-js"
+    "url": "https://github.com/Frontier-Compute/zap1-js"
   }
 }

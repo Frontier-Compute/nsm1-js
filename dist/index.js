@@ -1,9 +1,9 @@
 /**
- * @frontier-compute/nsm1  - NSM1 Merkle proof verification (WASM-powered)
+ * @frontier-compute/zap1  - ZAP1 Merkle proof verification (WASM-powered)
  *
- * Wraps the nsm1-verify Rust crate compiled to WebAssembly.
+ * Wraps the zap1-verify Rust crate compiled to WebAssembly.
  * BLAKE2b-256 with NordicShield personalizations, Merkle proof walking,
- * and leaf hash computation for all 9 deployed NSM1 event types.
+ * and leaf hash computation for all 9 deployed ZAP1 event types.
  */
 
 let wasmModule = null;
@@ -18,8 +18,8 @@ export async function init() {
   if (wasmModule) return;
   if (initPromise) return initPromise;
   initPromise = (async () => {
-    const wasm = await import("../wasm/nsm1_verify_wasm.js");
-    const wasmUrl = new URL("../wasm/nsm1_verify_wasm_bg.wasm", import.meta.url);
+    const wasm = await import("../wasm/zap1_verify_wasm.js");
+    const wasmUrl = new URL("../wasm/zap1_verify_wasm_bg.wasm", import.meta.url);
     await wasm.default(wasmUrl);
     wasmModule = wasm;
   })();
@@ -32,7 +32,7 @@ async function ensureInit() {
 
 // Event types
 
-/** All 9 deployed NSM1 event types. */
+/** All 9 deployed ZAP1 event types. */
 export const EVENT_TYPES = [
   "PROGRAM_ENTRY",
   "OWNERSHIP_ATTEST",
@@ -48,7 +48,7 @@ export const EVENT_TYPES = [
 // Leaf hash computation
 
 /**
- * Compute the leaf hash for an NSM1 event.
+ * Compute the leaf hash for an ZAP1 event.
  *
  * @param {string} eventType  - one of EVENT_TYPES
  * @param {object} payload  - event-specific fields
@@ -133,7 +133,7 @@ export function parseBundle(input) {
     root: rootHash,
     anchor,
     leaf: data.leaf || null,
-    protocol: data.protocol || "NSM1",
+    protocol: data.protocol || "ZAP1",
     version: data.version || "1",
   };
 }
