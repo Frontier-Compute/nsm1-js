@@ -4,7 +4,7 @@
 
 ZAP1 Merkle proof verification for JavaScript and TypeScript. WASM-powered BLAKE2b-256 with ZAP1 domain-separated personalizations.
 
-Zero-trust verification of on-chain commitments. All cryptography runs client-side via WebAssembly compiled from the `zap1-verify` Rust crate.
+Client-side verification of on-chain commitments. All cryptography runs in WebAssembly compiled from the `zap1-verify` Rust crate.
 
 ## Install
 
@@ -58,7 +58,7 @@ const parent = await nodeHash(leftHex, rightHex);
 | `parseBundle(json)` | Parse and normalize an API proof bundle |
 | `EVENT_TYPES` | Array of all 9 deployed ZAP1 event types |
 
-## Personalizations
+## Personalizations (protocol constants)
 
 | Context | Value (16 bytes) |
 |---------|-----------------|
