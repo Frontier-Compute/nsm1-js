@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/Frontier-Compute/zap1-js/actions/workflows/ci.yml/badge.svg)](https://github.com/Frontier-Compute/zap1-js/actions/workflows/ci.yml)
 
-ZAP1 Merkle proof verification for JavaScript and TypeScript. WASM-powered BLAKE2b-256 with Nordic Shield personalizations.
+ZAP1 Merkle proof verification for JavaScript and TypeScript. WASM-powered BLAKE2b-256 with ZAP1 domain-separated personalizations.
 
 Zero-trust verification of on-chain commitments. All cryptography runs client-side via WebAssembly compiled from the `zap1-verify` Rust crate.
 
