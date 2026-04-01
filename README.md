@@ -56,7 +56,7 @@ const parent = await nodeHash(leftHex, rightHex);
 | `verifyProof(bundle)` | Verify a Merkle inclusion proof |
 | `nodeHash(left, right)` | Compute a Merkle node hash |
 | `parseBundle(json)` | Parse and normalize an API proof bundle |
-| `EVENT_TYPES` | Array of all 9 deployed ZAP1 event types |
+| `EVENT_TYPES` | Array of all 15 ZAP1 event types |
 
 ## Personalizations (protocol constants)
 
