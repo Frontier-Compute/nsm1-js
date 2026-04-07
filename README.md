@@ -5,6 +5,8 @@
 ![downloads](https://img.shields.io/npm/dw/@frontiercompute/zap1)
 ![license](https://img.shields.io/npm/l/@frontiercompute/zap1)
 
+[**Dashboard**](https://frontiercompute.cash/dashboard.html) | [npm](https://www.npmjs.com/package/@frontiercompute/zap1) | [GitHub](https://github.com/Frontier-Compute/zap1-js)
+
 ZAP1 Merkle proof verification for JavaScript and TypeScript. WASM-powered BLAKE2b-256 with ZAP1 domain-separated personalizations.
 
 Client-side verification of on-chain commitments. All cryptography runs in WebAssembly compiled from the `zap1-verify` Rust crate.
