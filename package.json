@@ -1,6 +1,6 @@
 {
   "name": "@frontiercompute/zap1",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "ZAP1 Merkle proof verification for JavaScript/TypeScript - WASM-powered BLAKE2b-256",
   "type": "module",
   "main": "dist/index.js",
@@ -8,7 +8,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "files": [
