@@ -1,32 +1,27 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
-
-function trailingJson(text) {
-  const value = text.trim();
-  for (let index = value.length - 1; index >= 0; index -= 1) {
-    if (value[index] !== "{" && value[index] !== "[") continue;
-    try {
-      return JSON.parse(value.slice(index));
-    } catch {
-      // Keep scanning for the outermost final JSON value.
-    }
-  }
-  throw new Error("npm output did not end with valid JSON");
-}
+import { publishedCandidate, trailingJson } from "./publish-result.mjs";
 
 const [preflightPath, publishPath] = process.argv.slice(2);
 assert.ok(preflightPath, "preflight pack result path is required");
 assert.ok(publishPath, "publish result path is required");
 assert.ok(process.env.GITHUB_SHA, "GITHUB_SHA is required");
-const expectedHead = execFileSync("git", ["rev-parse", "HEAD"], {
+const git = (...args) => execFileSync("git", args, {
   encoding: "utf8",
   stdio: ["ignore", "pipe", "inherit"],
 }).trim();
 
 const preflight = JSON.parse(await readFile(preflightPath, "utf8"));
-const publishedRaw = trailingJson(await readFile(publishPath, "utf8"));
-const published = Array.isArray(publishedRaw) ? publishedRaw[0] : publishedRaw;
+const published = publishedCandidate(
+  trailingJson(await readFile(publishPath, "utf8")),
+);
+const expectedHead = git("rev-parse", `${process.env.GITHUB_SHA}^{commit}`);
+assert.equal(git("rev-parse", "HEAD"), expectedHead);
+assert.equal(
+  git("rev-parse", `refs/tags/v${preflight.version}^{commit}`),
+  expectedHead,
+);
 
 assert.equal(published.name, "@frontiercompute/zap1");
 assert.equal(published.version, preflight.version);

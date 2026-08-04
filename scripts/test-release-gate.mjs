@@ -3,6 +3,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { copyFile, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
+import { publishedCandidate, trailingJson } from "./publish-result.mjs";
 
 function git(cwd, ...args) {
   return execFileSync("git", args, {
@@ -29,6 +30,20 @@ function gate(cwd, initCwd) {
 
 const fixture = await mkdtemp(join(tmpdir(), "zap1-release-gate-"));
 try {
+  const publish = { name: "@frontiercompute/zap1", version: "9.9.9" };
+  assert.deepEqual(publishedCandidate(publish), publish);
+  assert.deepEqual(publishedCandidate([publish]), publish);
+  assert.deepEqual(
+    publishedCandidate({ "@frontiercompute/zap1": publish }),
+    publish,
+  );
+  assert.deepEqual(
+    publishedCandidate(trailingJson(`lifecycle output\n${JSON.stringify({
+      "@frontiercompute/zap1": publish,
+    })}\n`)),
+    publish,
+  );
+
   await copyFile(resolve("scripts/check-release.mjs"), join(fixture, "check-release.mjs"));
   await writeFile(
     join(fixture, "package.json"),
