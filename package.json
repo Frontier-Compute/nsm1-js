@@ -1,7 +1,7 @@
 {
   "name": "@frontiercompute/zap1",
-  "version": "0.1.3",
-  "description": "ZAP1 Merkle proof verification for JavaScript/TypeScript - WASM-powered BLAKE2b-256",
+  "version": "0.2.0",
+  "description": "Zero-runtime-dependency ZAP1 Merkle proof verification with COUNT_BOUND_V2 and gated legacy support",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,11 +14,18 @@
   },
   "files": [
     "dist/",
-    "wasm/"
+    "CHANGELOG.md",
+    "LICENSE",
+    "PROVENANCE.md",
+    "README.md"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/index.js dist/index.js && cp src/index.d.ts dist/index.d.ts",
-    "test": "node test/test.js"
+    "build": "node scripts/build.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "prepack": "npm run clean && npm run build && npm test",
+    "test": "node test/test.js",
+    "test:browser": "node test/browser-test.mjs",
+    "test:packed": "node scripts/test-packed.mjs"
   },
   "keywords": [
     "zcash",
@@ -26,12 +33,22 @@
     "merkle",
     "proof",
     "zap1",
-    "wasm"
+    "javascript"
   ],
-  "author": "Zk-nd3r <zk_nd3r@frontiercompute.io>",
+  "author": "Zk-nd3r <zk-nd3r@users.noreply.github.com>",
   "license": "MIT",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Frontier-Compute/zap1-js"
+    "url": "https://github.com/Frontier-Compute/zap1-js.git"
   }
 }
