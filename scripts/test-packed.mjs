@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -10,6 +10,9 @@ if (!npmCli) {
   throw new Error("npm_execpath is required; run this gate through npm");
 }
 const projectRoot = process.cwd();
+const projectPackage = JSON.parse(
+  await readFile(join(projectRoot, "package.json"), "utf8"),
+);
 const packOutput = execFileSync(process.execPath, [npmCli, "pack", "--json"], {
   cwd: projectRoot,
   encoding: "utf8",
@@ -25,7 +28,7 @@ const packs = JSON.parse(packOutput.slice(packMarkers.at(-1).index));
 assert.equal(packs.length, 1);
 const pack = packs[0];
 assert.equal(pack.name, "@frontiercompute/zap1");
-assert.equal(pack.version, "0.2.0");
+assert.equal(pack.version, projectPackage.version);
 assert.deepEqual(
   pack.files.map(({ path }) => path).sort(),
   [
@@ -148,6 +151,13 @@ try {
   );
   if (browser.status !== 0) {
     throw new Error(`packed browser matrix exited ${browser.status}`);
+  }
+  if (process.env.ZAP1_PACK_RESULT) {
+    await writeFile(
+      resolve(process.env.ZAP1_PACK_RESULT),
+      `${JSON.stringify(pack, null, 2)}\n`,
+      "utf8",
+    );
   }
   console.log(`packed clean-install matrix passed: ${pack.integrity}`);
 } finally {
