@@ -25,7 +25,7 @@
     "prepublishOnly": "node scripts/check-release.mjs",
     "postpack": "node scripts/check-release-postpack.mjs",
     "prepack": "npm run clean && npm run build && npm test",
-    "test": "node test/test.js && node scripts/test-release-gate.mjs",
+    "test": "node scripts/check-supply-chain.mjs && node scripts/test-supply-chain-gate.mjs && node scripts/test-prepublish-gate.mjs && node test/test.js && node scripts/test-release-gate.mjs",
     "test:browser": "node test/browser-test.mjs",
     "test:packed": "node scripts/test-packed.mjs"
   },

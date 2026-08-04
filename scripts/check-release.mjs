@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { readFile, realpath } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -57,6 +57,16 @@ const tagTarget = git(
   `refs/tags/${expectedTag}^{commit}`,
 );
 assert.equal(head, tagTarget, `${expectedTag} must resolve to HEAD`);
+const mainAncestry = spawnSync(
+  "git",
+  ["merge-base", "--is-ancestor", head, "refs/remotes/origin/main"],
+  { cwd: packageRoot, stdio: "ignore" },
+);
+assert.equal(
+  mainAncestry.status,
+  0,
+  `${expectedTag} must point to a commit reachable from origin/main`,
+);
 
 if (process.env.GITHUB_ACTIONS === "true") {
   assert.equal(

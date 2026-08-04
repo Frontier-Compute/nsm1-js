@@ -62,6 +62,7 @@ try {
   );
   git(fixture, "add", "check-release.mjs", "package.json");
   git(fixture, "commit", "-q", "-m", "fixture");
+  git(fixture, "update-ref", "refs/remotes/origin/main", "HEAD");
 
   git(fixture, "tag", "v9.9.9");
   assert.notEqual(gate(fixture, fixture).status, 0, "lightweight tag must fail");
@@ -69,6 +70,13 @@ try {
 
   git(fixture, "tag", "-a", "v9.9.9", "-m", "fixture release");
   assert.equal(gate(fixture, fixture).status, 0, "annotated exact tag must pass");
+  git(fixture, "update-ref", "-d", "refs/remotes/origin/main");
+  assert.notEqual(
+    gate(fixture, fixture).status,
+    0,
+    "tag outside origin/main ancestry must fail",
+  );
+  git(fixture, "update-ref", "refs/remotes/origin/main", "HEAD");
   assert.notEqual(
     gate(fixture, dirname(fixture)).status,
     0,

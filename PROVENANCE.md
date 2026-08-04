@@ -1,5 +1,21 @@
 # Release provenance
 
+## Future release pipeline hardening (August 4, 2026)
+
+Dependency installation runs with lifecycle scripts disabled against an exact
+three-entry development lock graph. CI actions are pinned by full commit SHA.
+Verification, browser testing, and source-derived preflight packing run without
+OIDC publication authority.
+
+The isolated OIDC job executes no project dependency or downloaded
+browser/test tool; it uses only full-SHA-pinned GitHub setup actions and the
+runner's Node/npm. It accepts only an annotated tag reachable from
+`origin/main`, packs the committed checkout with lifecycle scripts disabled,
+and requires its name, version, file set, integrity, and shasum to match the
+verified preflight before directory publication. Publication also disables
+lifecycle scripts. Registry source and provenance checks run afterward in a
+separate job without OIDC.
+
 ## 0.2.1
 
 The `0.2.0` npm artifact was byte-identical to the GitHub release asset and all
