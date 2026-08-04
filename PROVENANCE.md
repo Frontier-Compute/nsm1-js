@@ -1,5 +1,22 @@
 # Release provenance
 
+## 0.2.1
+
+The `0.2.0` npm artifact was byte-identical to the GitHub release asset and all
+eight packaged files matched tag `v0.2.0`. However, npm recorded the unrelated
+parent-workspace commit `27f6a25d7dea225d34b56a0e836dac19446e689c` as
+`gitHead` because publication was invoked outside the package repository.
+
+Version `0.2.1` repairs that source pointer without changing verifier
+semantics. Publication is permitted only from a clean checkout whose repository
+root is the package root and whose `HEAD` is the target of annotated tag
+`v0.2.1`. The source-directory lifecycle gates enforce those conditions
+before and after packing. Manual prepacked-tarball publication bypasses npm
+lifecycle scripts and is prohibited. The tag workflow clean-install-tests a
+preflight tarball, then publishes through the complete npm directory lifecycle
+from the exact gated tag using the package-scoped trusted publisher. npm records
+the source `gitHead` and registry provenance from that canonical workflow.
+
 ## 0.2.0
 
 The release source is the commit bearing the annotated repository tag `v0.2.0`.

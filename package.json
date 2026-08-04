@@ -1,6 +1,6 @@
 {
   "name": "@frontiercompute/zap1",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Zero-runtime-dependency ZAP1 Merkle proof verification with COUNT_BOUND_V2 and gated legacy support",
   "type": "module",
   "main": "dist/index.js",
@@ -22,8 +22,10 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "prepublishOnly": "node scripts/check-release.mjs",
+    "postpack": "node scripts/check-release-postpack.mjs",
     "prepack": "npm run clean && npm run build && npm test",
-    "test": "node test/test.js",
+    "test": "node test/test.js && node scripts/test-release-gate.mjs",
     "test:browser": "node test/browser-test.mjs",
     "test:packed": "node scripts/test-packed.mjs"
   },
